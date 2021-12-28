@@ -4,7 +4,18 @@ class ViewController: UIViewController {
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var generateButton: UIButton!
     @IBOutlet weak var brutedPasswordLabel: UILabel!
-    @IBOutlet weak var passwordLabel: UITextField!
+    @IBOutlet weak var passwordLabel: UITextField! {
+        didSet {
+            if brutedPasswordLabel.text == password {
+                passwordLabel.isSecureTextEntry = false
+            }
+        }
+    }
+    private var password = "0012" {
+        didSet {
+            passwordLabel.text = password
+        }
+    }
     
     var isBlack: Bool = false {
         didSet {
@@ -23,9 +34,10 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
-        self.bruteForce(passwordToUnlock: "1!gr")
+        self.bruteForce(passwordToUnlock: password)
+        self.generateButton.addTarget(self, action: #selector(generatePassword), for: .touchUpInside)
         self.passwordLabel.isSecureTextEntry = true
+        self.passwordLabel.text = password
         
         // Do any additional setup after loading the view.
     }
@@ -40,10 +52,21 @@ class ViewController: UIViewController {
             password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
 //             Your stuff here
             print(password)
+            brutedPasswordLabel.text = password
             // Your stuff here
         }
         
         print(password)
+        brutedPasswordLabel.text = password
+    }
+    
+    @objc func generatePassword() {
+        var newPassword = String()
+        let charecters: [String] = String().printable.map { String($0) }
+        for _ in 0..<4 {
+            newPassword.append(charecters[Int.random(in: 0..<charecters.count)])
+        }
+        password = newPassword
     }
 }
 
