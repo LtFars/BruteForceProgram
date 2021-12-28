@@ -3,15 +3,9 @@ import UIKit
 class ViewController: UIViewController {
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var generateButton: UIButton!
+    @IBOutlet weak var passwordLabel: UITextField!
     @IBOutlet weak var brutedPasswordLabel: UILabel!
-    @IBOutlet weak var passwordLabel: UITextField! {
-        didSet {
-            if brutedPasswordLabel.text == password {
-                passwordLabel.isSecureTextEntry = false
-            }
-        }
-    }
-    private var password = "0012" {
+    private var password = "bB5d" {
         didSet {
             passwordLabel.text = password
         }
@@ -21,8 +15,10 @@ class ViewController: UIViewController {
         didSet {
             if isBlack {
                 self.view.backgroundColor = .black
+                self.brutedPasswordLabel.textColor = .white
             } else {
                 self.view.backgroundColor = .white
+                self.brutedPasswordLabel.textColor = .black
             }
         }
     }
@@ -33,13 +29,8 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        self.bruteForce(passwordToUnlock: password)
-        self.generateButton.addTarget(self, action: #selector(generatePassword), for: .touchUpInside)
         self.passwordLabel.isSecureTextEntry = true
         self.passwordLabel.text = password
-        
-        // Do any additional setup after loading the view.
     }
     
     func bruteForce(passwordToUnlock: String) {
@@ -52,21 +43,39 @@ class ViewController: UIViewController {
             password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
 //             Your stuff here
             print(password)
-            brutedPasswordLabel.text = password
             // Your stuff here
+            DispatchQueue.main.async {
+                self.brutedPasswordLabel.text = password
+                if self.brutedPasswordLabel.text == self.password {
+                    self.passwordLabel.isSecureTextEntry = false
+                    self.generateButton.isEnabled = true
+                }
+            }
         }
-        
         print(password)
-        brutedPasswordLabel.text = password
+        DispatchQueue.main.async {
+            self.brutedPasswordLabel.text = password
+        }
     }
     
-    @objc func generatePassword() {
+    @IBAction func generatePassword(_ sender: Any) {
+        let queue = DispatchQueue(label: "queue", qos: .background, attributes: .concurrent)
+        generateButton.isEnabled = false
+        var bruteForceItem = DispatchWorkItem {}
+        self.passwordLabel.isSecureTextEntry = true
+        bruteForceItem.cancel()
+        bruteForceItem = DispatchWorkItem {
+            self.bruteForce(passwordToUnlock: self.password)
+        }
         var newPassword = String()
         let charecters: [String] = String().printable.map { String($0) }
-        for _ in 0..<4 {
+        for _ in 0..<3 {
             newPassword.append(charecters[Int.random(in: 0..<charecters.count)])
         }
         password = newPassword
+        queue.async {
+            bruteForceItem.perform()
+        }
     }
 }
 
@@ -115,4 +124,3 @@ func generateBruteForce(_ string: String, fromArray array: [String]) -> String {
 
     return str
 }
-
