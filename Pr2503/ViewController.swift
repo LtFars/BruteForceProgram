@@ -2,6 +2,9 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var generateButton: UIButton!
+    @IBOutlet weak var brutedPasswordLabel: UILabel!
+    @IBOutlet weak var passwordLabel: UITextField!
     
     var isBlack: Bool = false {
         didSet {
@@ -22,12 +25,13 @@ class ViewController: UIViewController {
         
         
         self.bruteForce(passwordToUnlock: "1!gr")
+        self.passwordLabel.isSecureTextEntry = true
         
         // Do any additional setup after loading the view.
     }
     
     func bruteForce(passwordToUnlock: String) {
-        let ALLOWED_CHARACTERS:   [String] = String().printable.map { String($0) }
+        let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
 
         var password: String = ""
 
