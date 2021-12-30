@@ -5,6 +5,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var generateButton: UIButton!
     @IBOutlet weak var passwordLabel: UITextField!
     @IBOutlet weak var brutedPasswordLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     private var password = "bB5d" {
         didSet {
             passwordLabel.text = password
@@ -49,6 +50,7 @@ class ViewController: UIViewController {
                 if self.brutedPasswordLabel.text == self.password {
                     self.passwordLabel.isSecureTextEntry = false
                     self.generateButton.isEnabled = true
+                    self.activityIndicator.stopAnimating()
                 }
             }
         }
@@ -61,6 +63,7 @@ class ViewController: UIViewController {
     @IBAction func generatePassword(_ sender: Any) {
         let queue = DispatchQueue(label: "queue", qos: .background, attributes: .concurrent)
         generateButton.isEnabled = false
+        self.activityIndicator.startAnimating()
         var bruteForceItem = DispatchWorkItem {}
         self.passwordLabel.isSecureTextEntry = true
         bruteForceItem.cancel()
