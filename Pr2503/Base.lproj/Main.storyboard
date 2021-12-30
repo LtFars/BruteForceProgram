@@ -55,6 +55,13 @@
                                     <action selector="generatePassword:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GOg-cn-PqL"/>
                                 </connections>
                             </button>
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="fgD-kV-IoQ">
+                                <rect key="frame" x="260" y="278" width="20" height="20"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="20" id="YbV-Bb-GZV"/>
+                                    <constraint firstAttribute="height" constant="20" id="o3F-Jb-chb"/>
+                                </constraints>
+                            </activityIndicatorView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -64,9 +71,11 @@
                             <constraint firstItem="c4O-wt-XVT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="145" id="7me-oF-e4g"/>
                             <constraint firstItem="Vrc-iD-B2G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="145" id="81O-Yu-frm"/>
                             <constraint firstItem="3g4-cd-RKK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="145" id="8qk-sY-g69"/>
+                            <constraint firstItem="fgD-kV-IoQ" firstAttribute="leading" secondItem="c4O-wt-XVT" secondAttribute="trailing" constant="15" id="9jp-iT-Gaa"/>
                             <constraint firstItem="vdk-WS-miu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="185" id="B0Q-aQ-w1Q"/>
                             <constraint firstItem="c4O-wt-XVT" firstAttribute="top" secondItem="vdk-WS-miu" secondAttribute="bottom" constant="15" id="MKI-Aw-AWh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="3g4-cd-RKK" secondAttribute="bottom" constant="350" id="UKZ-5w-7U1"/>
+                            <constraint firstItem="fgD-kV-IoQ" firstAttribute="top" secondItem="c4O-wt-XVT" secondAttribute="top" id="XfA-OF-Atw"/>
                             <constraint firstAttribute="trailing" secondItem="vdk-WS-miu" secondAttribute="trailing" constant="145" id="fMD-73-cER"/>
                             <constraint firstAttribute="trailing" secondItem="Vrc-iD-B2G" secondAttribute="trailing" constant="145" id="iby-8I-2Pk"/>
                             <constraint firstItem="vdk-WS-miu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="145" id="oBs-ZS-zwM"/>
@@ -74,6 +83,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="activityIndicator" destination="fgD-kV-IoQ" id="X3d-1p-sMC"/>
                         <outlet property="brutedPasswordLabel" destination="c4O-wt-XVT" id="maZ-qE-D3d"/>
                         <outlet property="button" destination="3g4-cd-RKK" id="yGm-KB-boF"/>
                         <outlet property="generateButton" destination="Vrc-iD-B2G" id="cmI-wo-baI"/>
