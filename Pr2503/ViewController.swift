@@ -6,12 +6,13 @@ class ViewController: UIViewController {
     @IBOutlet weak var passwordLabel: UITextField!
     @IBOutlet weak var brutedPasswordLabel: UILabel!
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
-    private var password = "bB5d" {
+    private var password = "bB51" {
         didSet {
             passwordLabel.text = password
         }
     }
     
+    private var correctSymbols = [String]()
     var isBlack: Bool = false {
         didSet {
             if isBlack {
@@ -42,12 +43,12 @@ class ViewController: UIViewController {
         // Will strangely ends at 0000 instead of ~~~
         while password != passwordToUnlock { // Increase MAXIMUM_PASSWORD_SIZE value for more
             password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
-//             Your stuff here
+            // Your stuff here
             print(password)
             // Your stuff here
             DispatchQueue.main.async {
-                self.brutedPasswordLabel.text = password
-                if self.brutedPasswordLabel.text == self.password {
+                if  self.correctSymbols.joined() == self.password {
+                    self.brutedPasswordLabel.text = self.password
                     self.passwordLabel.isSecureTextEntry = false
                     self.generateButton.isEnabled = true
                     self.activityIndicator.stopAnimating()
@@ -55,34 +56,29 @@ class ViewController: UIViewController {
             }
         }
         print(password)
-        DispatchQueue.main.async {
-            self.brutedPasswordLabel.text = password
-        }
+        correctSymbols.append(password)
     }
     
     @IBAction func generatePassword(_ sender: Any) {
         let queue = DispatchQueue(label: "queue", qos: .background, attributes: .concurrent)
         generateButton.isEnabled = false
-        self.activityIndicator.startAnimating()
-        var bruteForceItem = DispatchWorkItem {}
-        self.passwordLabel.isSecureTextEntry = true
-        bruteForceItem.cancel()
-        bruteForceItem = DispatchWorkItem {
-            self.bruteForce(passwordToUnlock: self.password)
-        }
+        passwordLabel.isSecureTextEntry = true
+        activityIndicator.startAnimating()
+        correctSymbols = []
         var newPassword = String()
         let charecters: [String] = String().printable.map { String($0) }
-        for _ in 0..<3 {
+        for _ in 0..<25 {
             newPassword.append(charecters[Int.random(in: 0..<charecters.count)])
         }
         password = newPassword
-        queue.async {
-            bruteForceItem.perform()
+        for i in self.password {
+            let dispatchWorkItem = DispatchWorkItem {
+                self.bruteForce(passwordToUnlock: String(i))
+            }
+            queue.asyncAndWait(execute: dispatchWorkItem)
         }
     }
 }
-
-
 
 extension String {
     var digits:      String { return "0123456789" }
@@ -91,8 +87,6 @@ extension String {
     var punctuation: String { return "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" }
     var letters:     String { return lowercase + uppercase }
     var printable:   String { return digits + letters + punctuation }
-
-
 
     mutating func replace(at index: Int, with character: Character) {
         var stringArray = Array(self)
@@ -124,6 +118,5 @@ func generateBruteForce(_ string: String, fromArray array: [String]) -> String {
             str = String(generateBruteForce(String(str.dropLast()), fromArray: array)) + String(str.last!)
         }
     }
-
     return str
 }
