@@ -27,7 +27,7 @@
                                     <action selector="onBut:" destination="BYZ-38-t0r" eventType="touchUpInside" id="XD4-sb-XPE"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c4O-wt-XVT">
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hacked password" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c4O-wt-XVT">
                                 <rect key="frame" x="60" y="278" width="300" height="20.5"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="YcR-4R-DkP"/>
@@ -44,17 +44,6 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits"/>
                             </textField>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vrc-iD-B2G">
-                                <rect key="frame" x="145" y="313.5" width="100" height="31"/>
-                                <constraints>
-                                    <constraint firstAttribute="width" constant="100" id="XvX-wF-dDm"/>
-                                </constraints>
-                                <state key="normal" title="Button"/>
-                                <buttonConfiguration key="configuration" style="filled" title="Hack!"/>
-                                <connections>
-                                    <action selector="generatePassword:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GOg-cn-PqL"/>
-                                </connections>
-                            </button>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="medium" translatesAutoresizingMaskIntoConstraints="NO" id="fgD-kV-IoQ">
                                 <rect key="frame" x="375" y="278" width="20" height="20"/>
                                 <constraints>
@@ -62,22 +51,52 @@
                                     <constraint firstAttribute="height" constant="20" id="o3F-Jb-chb"/>
                                 </constraints>
                             </activityIndicatorView>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="15" translatesAutoresizingMaskIntoConstraints="NO" id="DMZ-Re-5fc">
+                                <rect key="frame" x="80" y="328.5" width="265" height="30"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Vrc-iD-B2G">
+                                        <rect key="frame" x="0.0" y="0.0" width="100" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="XvX-wF-dDm"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Generate"/>
+                                        <connections>
+                                            <action selector="generatePassword:" destination="BYZ-38-t0r" eventType="touchUpInside" id="GOg-cn-PqL"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Xbf-a4-3ou">
+                                        <rect key="frame" x="115" y="0.0" width="150" height="30"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="100" id="Ice-m4-LZn"/>
+                                        </constraints>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="filled" title="Hack!"/>
+                                        <connections>
+                                            <action selector="hackPassword:" destination="BYZ-38-t0r" eventType="touchUpInside" id="4wp-9Q-riE"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="g1e-Ns-juH"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="c4O-wt-XVT" secondAttribute="trailing" constant="60" id="2Mj-td-CE2"/>
-                            <constraint firstItem="Vrc-iD-B2G" firstAttribute="top" secondItem="c4O-wt-XVT" secondAttribute="bottom" constant="15" id="641-ri-DRF"/>
                             <constraint firstItem="c4O-wt-XVT" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="60" id="7me-oF-e4g"/>
-                            <constraint firstItem="Vrc-iD-B2G" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="145" id="81O-Yu-frm"/>
                             <constraint firstItem="3g4-cd-RKK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="145" id="8qk-sY-g69"/>
                             <constraint firstItem="fgD-kV-IoQ" firstAttribute="leading" secondItem="c4O-wt-XVT" secondAttribute="trailing" constant="15" id="9jp-iT-Gaa"/>
                             <constraint firstItem="vdk-WS-miu" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="185" id="B0Q-aQ-w1Q"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="DMZ-Re-5fc" secondAttribute="trailing" constant="75" id="BHL-sv-68W"/>
+                            <constraint firstItem="DMZ-Re-5fc" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="80" id="L3z-Li-oUX"/>
                             <constraint firstItem="c4O-wt-XVT" firstAttribute="top" secondItem="vdk-WS-miu" secondAttribute="bottom" constant="15" id="MKI-Aw-AWh"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="3g4-cd-RKK" secondAttribute="bottom" constant="350" id="UKZ-5w-7U1"/>
                             <constraint firstItem="fgD-kV-IoQ" firstAttribute="top" secondItem="c4O-wt-XVT" secondAttribute="top" id="XfA-OF-Atw"/>
+                            <constraint firstItem="DMZ-Re-5fc" firstAttribute="top" secondItem="c4O-wt-XVT" secondAttribute="bottom" constant="30" id="Z2x-YJ-A3x"/>
                             <constraint firstAttribute="trailing" secondItem="vdk-WS-miu" secondAttribute="trailing" constant="60" id="fMD-73-cER"/>
-                            <constraint firstAttribute="trailing" secondItem="Vrc-iD-B2G" secondAttribute="trailing" constant="145" id="iby-8I-2Pk"/>
                             <constraint firstItem="vdk-WS-miu" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" constant="60" id="oBs-ZS-zwM"/>
                             <constraint firstAttribute="trailing" secondItem="3g4-cd-RKK" secondAttribute="trailing" constant="145" id="sEh-Ck-Ud7"/>
                         </constraints>
@@ -87,6 +106,7 @@
                         <outlet property="brutedPasswordLabel" destination="c4O-wt-XVT" id="maZ-qE-D3d"/>
                         <outlet property="button" destination="3g4-cd-RKK" id="yGm-KB-boF"/>
                         <outlet property="generateButton" destination="Vrc-iD-B2G" id="cmI-wo-baI"/>
+                        <outlet property="hackButton" destination="Xbf-a4-3ou" id="6U5-r5-2aa"/>
                         <outlet property="passwordLabel" destination="vdk-WS-miu" id="5zm-Hc-rCG"/>
                     </connections>
                 </viewController>
