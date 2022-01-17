@@ -2,13 +2,26 @@ import UIKit
 
 class ViewController: UIViewController {
     @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var generateButton: UIButton!
+    @IBOutlet weak var hackButton: UIButton!
+    @IBOutlet weak var passwordLabel: UITextField!
+    @IBOutlet weak var brutedPasswordLabel: UILabel!
+    @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
+    private var password = "bB51jfjwe332434" {
+        didSet {
+            passwordLabel.text = password
+        }
+    }
     
+    private var correctSymbols = [String]()
     var isBlack: Bool = false {
         didSet {
             if isBlack {
                 self.view.backgroundColor = .black
+                self.brutedPasswordLabel.textColor = .white
             } else {
                 self.view.backgroundColor = .white
+                self.brutedPasswordLabel.textColor = .black
             }
         }
     }
@@ -19,31 +32,61 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        
-        self.bruteForce(passwordToUnlock: "1!gr")
-        
-        // Do any additional setup after loading the view.
+        self.passwordLabel.isSecureTextEntry = true
+        self.passwordLabel.text = password
     }
     
     func bruteForce(passwordToUnlock: String) {
-        let ALLOWED_CHARACTERS:   [String] = String().printable.map { String($0) }
+        let ALLOWED_CHARACTERS: [String] = String().printable.map { String($0) }
 
         var password: String = ""
 
         // Will strangely ends at 0000 instead of ~~~
         while password != passwordToUnlock { // Increase MAXIMUM_PASSWORD_SIZE value for more
             password = generateBruteForce(password, fromArray: ALLOWED_CHARACTERS)
-//             Your stuff here
+            // Your stuff here
             print(password)
             // Your stuff here
+            DispatchQueue.main.async {
+                if  self.correctSymbols.joined() == self.password {
+                    self.brutedPasswordLabel.text = self.password
+                    self.passwordLabel.isSecureTextEntry = false
+                    self.generateButton.isEnabled = true
+                    self.hackButton.isEnabled = true
+                    self.activityIndicator.stopAnimating()
+                }
+            }
         }
-        
         print(password)
+        correctSymbols.append(password)
+    }
+    
+    @IBAction func generatePassword(_ sender: Any) {
+        passwordLabel.isSecureTextEntry = true
+        correctSymbols = []
+        var newPassword = String()
+        let charecters: [String] = String().printable.map { String($0) }
+        for _ in 0..<Int.random(in: 10...25) {
+            newPassword.append(charecters[Int.random(in: 0..<charecters.count)])
+        }
+        password = newPassword
+    }
+    
+    @IBAction func hackPassword(_ sender: Any) {
+        let queue = DispatchQueue(label: "queue", qos: .background, attributes: .concurrent)
+        generateButton.isEnabled = false
+        hackButton.isEnabled = false
+        passwordLabel.isSecureTextEntry = true
+        activityIndicator.startAnimating()
+        correctSymbols = []
+        for i in self.password {
+            let dispatchWorkItem = DispatchWorkItem {
+                self.bruteForce(passwordToUnlock: String(i))
+            }
+            queue.asyncAndWait(execute: dispatchWorkItem)
+        }
     }
 }
-
-
 
 extension String {
     var digits:      String { return "0123456789" }
@@ -52,8 +95,6 @@ extension String {
     var punctuation: String { return "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~" }
     var letters:     String { return lowercase + uppercase }
     var printable:   String { return digits + letters + punctuation }
-
-
 
     mutating func replace(at index: Int, with character: Character) {
         var stringArray = Array(self)
@@ -85,7 +126,5 @@ func generateBruteForce(_ string: String, fromArray array: [String]) -> String {
             str = String(generateBruteForce(String(str.dropLast()), fromArray: array)) + String(str.last!)
         }
     }
-
     return str
 }
-
